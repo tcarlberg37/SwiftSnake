@@ -19,10 +19,10 @@ class GameManager {
     }
     
     func startGame() {
-        // starting position in the upper middle of the playing area
-        scene.snakePosition.append((10, 10))
-        scene.snakePosition.append((10, 11))
-        scene.snakePosition.append((10, 12))
+        // starting position of 3 squares in the middle of the playing area (20x40)
+        scene.snakePosition.append((20, 10))
+        scene.snakePosition.append((20, 11))
+        scene.snakePosition.append((20, 12))
         makeChange()
     }
     
@@ -41,7 +41,12 @@ class GameManager {
     
     func contains(a:[(Int, Int)], v:(Int,Int)) -> Bool {
         let (c1, c2) = v
-        for (v1, v2) in a { if v1 == c1 && v2 == c2 { return true } }
+        for (v1, v2) in a {
+            // check if the coordinates v given are in the array of coordinates a
+            if v1 == c1 && v2 == c2 {
+                return true
+            }
+        }
         return false
     }
 }
