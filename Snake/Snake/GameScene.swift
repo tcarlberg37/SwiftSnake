@@ -20,7 +20,7 @@ class GameScene: SKScene {
     var btnPlay: SKShapeNode! // play Button reference
     var game: GameManager! // instance of our GameManager.swift class
     var score: SKLabelNode! // current score node
-    var snakePosition: [(Int, Int)] = [] // list of cells that make up our Snake, increases with each target hit
+    var snakePosition: [(Int, Int)] = [] // array of cells that make up our Snake, increases with each target hit
     var gameBackground: SKShapeNode! // background
     var gameArray: [(node: SKShapeNode, x: Int, y: Int)] = [] // array of nodes and coordinates
     
@@ -30,11 +30,43 @@ class GameScene: SKScene {
         createMenu();
         game = GameManager(scene: self); // initialize gameManager class and set to local variable
         createGameView();
+        
+        // UI GestureRecognizers for controlling the snake
+        let rightSwipe:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeRight));
+        rightSwipe.direction = .right;
+        view.addGestureRecognizer(rightSwipe);
+        let leftSwipe:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeLeft));
+        leftSwipe.direction = .left;
+        view.addGestureRecognizer(leftSwipe);
+        let upSwipe:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeUp));
+        upSwipe.direction = .up;
+        view.addGestureRecognizer(upSwipe);
+        let downSwipe:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeDown));
+        downSwipe.direction = .down;
+        view.addGestureRecognizer(downSwipe);
+    }
+    
+    // IBO Actions for each swipe direction (objc = objective-C function for use with the #selector function in didMove)
+    // each calls the gameManager's handleSwipe function with a direction parameter (corresponds to the same direction numbers as gameManager's direction variable)
+    @objc func swipeRight() {
+        game.handleSwipe(swipeDirection: 3);
+    }
+    @objc func swipeLeft() {
+        game.handleSwipe(swipeDirection: 1);
+    }
+    @objc func swipeUp() {
+        game.handleSwipe(swipeDirection: 2);
+    }
+    @objc func swipeDown() {
+        game.handleSwipe(swipeDirection: 4);
     }
     
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        
+        // call the gameManager update function to update
+        game.update(time: currentTime);
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
