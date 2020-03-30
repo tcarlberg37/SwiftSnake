@@ -23,6 +23,7 @@ class GameScene: SKScene {
     var snakePosition: [(Int, Int)] = [] // array of cells that make up our Snake, increases with each target hit
     var gameBackground: SKShapeNode! // background
     var gameArray: [(node: SKShapeNode, x: Int, y: Int)] = [] // array of nodes and coordinates
+    var targetPosition: CGPoint? // the point that the snake needs to hit to increase score
     
     
     override func didMove(to view: SKView) {
@@ -110,7 +111,7 @@ class GameScene: SKScene {
         highScore.zPosition = 1
         highScore.position = CGPoint(x: 0, y: (frame.size.height / -2) + 200)
         highScore.fontSize = 40
-        highScore.text = "High Score: 0"
+        highScore.text = "High Score: " + String(UserDefaults.standard.integer(forKey: "highScore")); // load high score into high score label
         highScore.fontColor = SKColor.red
         self.addChild(highScore) // add to the gameScene
     }
